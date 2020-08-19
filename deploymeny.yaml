@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+  namespace: jmtd-namespace 
+  labels:
+    app: my-app
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+  namespace: jmtd-namespace
+  labels:
+    app: my-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: pra
+        image: 367195867938.dkr.ecr.us-east-1.amazonaws.com/image-repo
+        ports:
+        - containerPort: 8080
